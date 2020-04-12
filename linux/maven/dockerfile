@@ -1,0 +1,21 @@
+#download image
+FROM ubuntu
+
+#run update command
+RUN apt-get update
+
+#Get java runtime and jdk
+RUN apt-get install -y default-jre default-jdk sudo wget
+
+#Set Java home
+RUN export JAVA_HOME=/usr/lib/jvm/default-java
+
+#get maven file and extract
+RUN wget -P /root/ http://mirrors.advancedhosters.com/apache/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz
+RUN sudo tar -zxvf /root/apache-maven-*.tar.gz \
+sudo mv -v /apache-maven-3.6.3 /opt/maven
+
+#set environment variables for maven --running the maven.sh file did not function as hoped
+RUN export M2_HOME=/opt/maven \
+export MAVEN_HOME=/opt/maven \
+export PATH=${M2_HOME}/bin:${PATH}
